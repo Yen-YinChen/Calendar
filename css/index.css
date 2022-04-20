@@ -1,0 +1,107 @@
+body {
+    margin: 0 0;
+    padding: 0 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+* {
+    /* border: 1px red solid; */
+}
+
+#calender_container {
+    border: 2px gray solid;
+    border-radius: 10px 10px 10px 10px;
+    width: 490px;
+    /* height: 490px; */
+    margin: 2rem auto;
+    padding: 0.5rem 0.5rem;
+
+}
+
+#calender_container:hover {
+    box-shadow: 10px 10px 10px gray;
+    border: 2px black solid;
+    transition: .3s;
+}
+
+#navbar-container {
+    margin-bottom: 0.8rem;
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.nav-item {
+    /* border: 1px black solid; */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#nav-prev,
+#nav-next {
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#nav-monthyear {
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#content {
+    width: auto;
+    height: auto;
+}
+
+#weekdays {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+
+}
+
+.dayofweekhd {
+    flex: 1 1 auto;
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+    text-align: center;
+    color: darkcyan;
+}
+
+#SU,
+#SA {
+    color: red;
+}
+
+#date_container {
+    width: auto;
+    height: auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.datediv {
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 400;
+}
