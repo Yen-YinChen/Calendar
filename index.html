@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Air Datepicker assignment</title>
+</head>
+
+<style>
+    body {
+        margin: 0 0;
+        padding: 0 0;
+        box-sizing: border-box;
+        font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    * {
+        /* border: 1px red solid; */
+    }
+
+    #calender_container {
+        border: 2px gray solid;
+        border-radius: 10px 10px 10px 10px;
+        width: 490px;
+        /* height: 490px; */
+        margin: 2rem auto;
+        padding: 0.5rem 0.5rem;
+
+    }
+
+    #calender_container:hover {
+        box-shadow: 10px 10px 10px gray;
+        border: 2px black solid;
+        transition: .3s;
+    }
+
+    #navbar-container {
+        margin-bottom: 0.8rem;
+    }
+
+    #navbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .nav-item {
+        /* border: 1px black solid; */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    #nav-prev,
+    #nav-next {
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    #nav-monthyear {
+        width: 300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    #content {
+        width: auto;
+        height: auto;
+    }
+
+    #weekdays {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        font-size: 1.3rem;
+        font-weight: bold;
+
+    }
+
+    .dayofweekhd {
+        flex: 1 1 auto;
+        margin: 0 auto;
+        width: auto;
+        height: auto;
+        text-align: center;
+        color: darkcyan;
+    }
+
+    #SU,
+    #SA {
+        color: red;
+    }
+
+    #date_container {
+        width: auto;
+        height: auto;
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .datediv {
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 400;
+    }
+</style>
+
+<body>
+    <div id="body">
+        <div id="calender_container">
+            <div id="calender">
+                <div id="navbar-container">
+                    <div id="navbar">
+                        <div class="nav-item" id="nav-prev">
+                            <i id="left" class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <div class="nav-item" id="nav-monthyear-div">
+                            <span id="navmonth" style="margin-right:0.5rem">Month,</span>
+                            <span id="navyear">Year</span>
+                        </div>
+                        <div class="nav-item" id="nav-next">
+                            <i id="right" class="fa-solid fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="content">
+                    <div id="weekdays">
+                        <div class="dayofweekhd" id="SU"><span>SU</span></div>
+                        <div class="dayofweekhd" id="MO"><span>MO</span></div>
+                        <div class="dayofweekhd" id="TU"><span>TU</span></div>
+                        <div class="dayofweekhd" id="WE"><span>WE</span></div>
+                        <div class="dayofweekhd" id="TH"><span>TH</span></div>
+                        <div class="dayofweekhd" id="FR"><span>FR</span></div>
+                        <div class="dayofweekhd" id="SA"><span>SA</span></div>
+                    </div>
+                    <div id="date_container">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        //border
+        $('#calender_container').on("mouseleave", function () {
+            $(this).css({ "border": "border: 2px gray solid" });
+
+        })
+
+        //+ navbar: month and year
+        let tday = new Date();
+        console.log(JSON.stringify(tday));
+        let monthLong = { month: "long" };
+        let yearLong = { year: "numeric" };
+        $('#navmonth').text(Intl.DateTimeFormat("en-US", monthLong).format(tday));
+        $('#navyear').text(Intl.DateTimeFormat("en-US", yearLong).format(tday));
+        //- navbar: month and year
+
+        //+ header: day of week
+        for (let i = 0; i < 35; i++) {
+            $("#date_container").append('<div data-itemNo="' + i + '"' + 'class="datediv"' + '>' + '<span>$$</span></div>');
+        }
+        //- header: day of week
+
+        //+ Set the day of week for each date div
+        $("#date_container").find("div").siblings().each(function () {
+            if (($(this).attr("data-itemNo")) % 7 == 0) {
+                $(this).attr("data-dayofweek", "0");
+            }
+            if (($(this).attr("data-itemNo")) % 7 == 1) {
+                $(this).attr("data-dayofweek", "1");
+            }
+            if (($(this).attr("data-itemNo")) % 7 == 2) {
+                $(this).attr("data-dayofweek", "2");
+            }
+            if (($(this).attr("data-itemNo")) % 7 == 3) {
+                $(this).attr("data-dayofweek", "3");
+            }
+            if (($(this).attr("data-itemNo")) % 7 == 4) {
+                $(this).attr("data-dayofweek", "4");
+            }
+            if (($(this).attr("data-itemNo")) % 7 == 5) {
+                $(this).attr("data-dayofweek", "5");
+            }
+            if (($(this).attr("data-itemNo")) % 7 == 6) {
+                $(this).attr("data-dayofweek", "6");
+            }
+        })
+        //-Set the day of week for each date div
+
+        //+ Get the first date of month(using Date object)
+        let now = new Date();
+        console.log(now);
+        now.setDate(1); //"now" becomes 1st date of this month
+        console.log(now.getDay());  //day of week of 1st date of month
+        $("#date_container").find("div").siblings().each(function () {
+            if (($(this).attr("data-dayofweek")) == (now.getDay()) && (($(this).attr("data-itemNo")) < 7)) {
+                $(this).attr("data-id", 'firstDate');
+                console.log($(this).attr("data-itemNo"));
+                $(this).attr("data-year", now.getFullYear());
+                $(this).attr("data-month", now.getMonth());
+                $(this).attr("data-day", now.getDate());
+            }
+        })
+        //- Get the first date of month(using Date object)
+
+        //+ Previous month: date and attr
+        let itemNum = $(document).find("div[data-id='firstDate']").attr('data-itemNo');
+        console.log(itemNum);
+        for (let i = 0; i < itemNum; i++) {
+            let now = new Date();
+            now.setDate(1 - itemNum + i);
+            let pd = $(document).find('div[data-itemNo="' + i + '"]');
+            pd.text(now.getDate());
+            pd.attr("data-year", now.getFullYear());
+            pd.attr("data-month", now.getMonth());
+            pd.attr("data-day", now.getDate());
+            pd.css({ "color": "gray" });
+        }
+        //- Previous month: date and attr
+
+        //+ This month: date and attr The next month
+        let num = parseInt(itemNum);    //the first date item no.
+        for (let i = 0; i < (35 - num); i++) {
+            let now = new Date();
+            let curMonth = now.getMonth();
+            now.setDate(1 + i);
+            let d = $(document).find('div[data-itemNo="' + (num + i) + '"]');
+            d.text(now.getDate());
+            d.attr("data-year", now.getFullYear());
+            d.attr("data-month", now.getMonth());
+            d.attr("data-day", now.getDate());
+            //+ next month
+            if (d.attr("data-month") > curMonth) {
+                d.css({ "color": "gray" });
+            }
+            //- next month
+
+
+            //+ Today
+            let nt = new Date();
+            if ((d.attr("data-year") == nt.getFullYear()) && (d.attr("data-month") == nt.getMonth()) && (d.attr("data-day") == nt.getDate())) {
+                d.css({ "color": "blue" });
+                d.css({ "width": "50px" });
+                d.css({ "border-radius": "50px 50px 50px 50px" });
+                d.css({ "transition": ".8s" });
+                //css
+                setInterval(() => {
+                    d.css({ "background-color": "white" });
+                    d.css({ "background-color": "blanchedalmond" });
+                }, 1000);
+                setInterval(() => {
+                    d.css({ "background-color": "white" });
+                }, 2000);
+            }
+            //- Today
+
+        }
+        //- This month: date and attr The next month
+
+        // + date css
+        $('.datediv').on("mouseover", function (event) {
+            $(this).css({ "text-shadow": "0px 0px 15px gold", "font-size": "1.65rem", "transition": ".2s" });
+        })
+        $('.datediv').on("mouseleave", function (event) {
+            $(this).css({ "text-shadow": "0px 0px 0px", "font-size": "1.3rem" });
+        })
+        //- date css
+
+
+
+        $('#dateobj').text('test');
+    </script>
+</body>
+
+</html>
